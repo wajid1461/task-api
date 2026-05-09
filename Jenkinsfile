@@ -40,7 +40,7 @@ pipeline {
             podman rm task-api-container || true
 
             podman run -d \
-                --name task-api-container \ 
+                --name task-api-container \
                 --network host \
                 task-api
             '''
