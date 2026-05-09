@@ -30,20 +30,25 @@ pipeline {
 
         stage('Build Container') {
             steps {
-                sh 'podman build -f Containerfile.app -t task-api .'
+                sh '''
+                podman build -f Containerfile.app -t task-api .
+                '''
             }
         }
 
         stage('Deploy Container') {
-            sh '''
-            podman stop task-api-container || true
-            podman rm task-api-container || true
+            steps {
+                sh '''
+                podman stop task-api-container || true
+                podman rm task-api-container || true
 
-            podman run -d \
-                --name task-api-container \
-                --network host \
-                task-api
-            '''
+                podman run -d \
+                  --name task-api-container \
+                  --network host \
+                  task-api
+                '''
+            }
         }
+
     }
 }
